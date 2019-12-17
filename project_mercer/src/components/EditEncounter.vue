@@ -35,13 +35,6 @@
                 encounterDescription:this.deliveredEncounter.definition,
                 encounterCR:this.deliveredEncounter.cr,
 
-                //Encounter template
-                returnEncounter:{
-                    name:'',
-                    definition:'',
-                    cr:0
-                },
-
                 //List of errors
                 errors:[]
             }
@@ -68,10 +61,10 @@
                 if(this.errors.length>0){
                     //Error Message
                 }else{
-                    this.returnEncounter.name=this.encounterName
-                    this.returnEncounter.definition=this.encounterDescription
-                    this.returnEncounter.cr=this.encounterCR
-                    this.$emit('returnedEncounter',this.returnEncounter)
+                    this.deliveredEncounter.name=this.encounterName
+                    this.deliveredEncounter.definition=this.encounterDescription
+                    this.deliveredEncounter.cr=this.encounterCR
+                    this.$emit('returnedEncounter',this.deliveredEncounter)
                 }
             },
             cancel(){

@@ -79,8 +79,13 @@ export default {
     //Edits existing encounter
     editEncounter(encounter){
       this.edit=false
-      this.$encounter_api.updateEncounter(encounter)
-      this.updateEncounters()
+      this.$encounter_api.deleteEncounter(encounter.id).then(()=>{
+              this.$encounter_api.addEncounter(encounter).then(()=>{
+                this.updateEncounters()
+              })
+      })
+
+      this.deliveredEncounter=this.encounter
     },
 
     //Updates encounters by pulling them from API and placing them in the encounters array
