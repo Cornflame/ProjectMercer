@@ -1,0 +1,11 @@
+@font-face {
+    font-family: VCR;
+    src: url("./fonts/vcr_osd_mono_1.001-webfont.woff"),
+    url("./fonts/vcr_osd_mono_1.001-webfont.woff");
+}
+html{
+    font-family: VCR;
+    text-align: center;
+    color: white;
+    background-color: blue;
+}

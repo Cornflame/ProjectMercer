@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="errorBanner">
-            {{errors}}
+            <li v-for="error in errors">{{error}}</li>
         </div>
         <div>
             <form>
@@ -31,20 +31,23 @@
         data(){
             return{
                 //Elements of Encounter object
-                encounterName:'',
-                encounterDescription:'',
-                encounterCR:0,
+                encounterName:this.deliveredEncounter.name,
+                encounterDescription:this.deliveredEncounter.definition,
+                encounterCR:this.deliveredEncounter.cr,
 
                 //Encounter template
                 returnEncounter:{
                     name:'',
-                    description:'',
+                    definition:'',
                     cr:0
                 },
 
                 //List of errors
                 errors:[]
             }
+        },
+        props:{
+            deliveredEncounter: Object
         },
         methods:{
             submit(){
@@ -66,13 +69,12 @@
                     //Error Message
                 }else{
                     this.returnEncounter.name=this.encounterName
-                    this.returnEncounter.description=this.encounterDescription
+                    this.returnEncounter.definition=this.encounterDescription
                     this.returnEncounter.cr=this.encounterCR
                     this.$emit('returnedEncounter',this.returnEncounter)
                 }
             },
             cancel(){
-                //Leave without saving TODO maybe put in a confirmation?
                 this.$emit('cancel')
             }
         }

@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import EncounterAPIServices from "./services/EncounterServices";
+import BootstrapVue from 'bootstrap-vue'
 
-Vue.prototype.$encounter_api=EncounterAPIServices
+import EncounterAPIService from "./services/EncounterServices"
+
+Vue.use(BootstrapVue)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.prototype.$encounter_api=EncounterAPIService
 
 Vue.config.productionTip = false
 

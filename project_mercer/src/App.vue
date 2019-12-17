@@ -2,24 +2,20 @@
   <div id="app">
     <p>Welcome to Project Mercer</p>
     <EditEncounter v-if="edit" v-bind:deliveredEncounter="deliveredEncounter" :key="change" v-on:returnedEncounter="decide" v-on:cancel="editOff"></EditEncounter>
-    <ViewEncounter v-if="view" v-bind:deliveredEncounter="deliveredEncounter" :key="change"></ViewEncounter>
-    <button v-if="!edit" v-on:click.prevent="newEncounter">New Encounter</button>
+    <ViewEncounter v-if="view" v-bind:deliveredEncounter="deliveredEncounter" :key="change" v-on:closeView="closeView"></ViewEncounter>
+    <br><button v-if="!edit" v-on:click.prevent="newEncounter">New Encounter</button><br>
     <h2>Encounters:</h2>
-    <EncounterList v-bind:encounters="encounters" :key="change"></EncounterList>
+    <EncounterList v-for="deliveredEncounter in encounters"  v-on:editPlease="beginEdit" v-on:viewPlease="viewBoy" v-on:delet_dis="deleteEncounter" v-bind:deliveredEncounter="deliveredEncounter" :key="change"></EncounterList>
   </div>
 </template>
 
 <script>
 
   /*TODO:
-  -Get the vue client and the server talking to each other
-  -Show the encounters with buttons to view, edit, and delete them
-  -Not just a ul, but actual discernable boxes (I think I'm going to need to add bootstrap to do that)
-  -Get view window working
-  -Replace placeholder error message with real shit
-  -Figure out how to discern the indexes of encounters, plug that number into editIndex
-  -Purge the databanks of all the garbage test encounters I made
   -Make everything look purty
+  -Comments
+  -github
+  -heroku
    */
 
   import EncounterList from "./components/EncounterList";
@@ -50,9 +46,6 @@ export default {
       //Is this encounter brand new
       newEdit:false,
 
-      //What is the index of the edited encounter
-      editIndex:-1,
-
       //Blank slate encounter to be overridden with whatever is being edited
       deliveredEncounter:{
         name: '',
@@ -77,6 +70,7 @@ export default {
     //Starts a new encounter
     newEncounter(){
       this.deliveredEncounter=this.encounter
+      this.view=false
       this.newEdit=true
       this.edit=true
     },
@@ -92,10 +86,8 @@ export default {
     //Edits existing encounter
     editEncounter(encounter){
       this.edit=false
-      this.$encounter_api.getAllEncounters().then(encounters=>{
-        encounters[this.editIndex]=encounter
-        this.updateEncounters()
-      })
+      this.$encounter_api.updateEncounter(encounter)
+      this.updateEncounters()
     },
 
     //Updates encounters by pulling them from API and placing them in the encounters array
@@ -119,29 +111,59 @@ export default {
     editOff(){
       this.encounter={
         name: '',
-        description:'',
+        definition:'',
         cr:0
       }
       this.deliveredEncounter={
         name: '',
-        description:'',
+        definition:'',
         cr:0
       }
 
       this.edit=false
-    }
+    },
 
+    //Show the boy. SHOW HIM
+    viewBoy(encounter){
+      this.editOff()
+      this.deliveredEncounter=encounter
+      this.view=true
+    },
+
+    //Don't show the boy, HIDE HIM
+    closeView(){
+      this.view=false
+    },
+
+    //Open edit window and begin edit
+    beginEdit(encounter){
+      this.deliveredEncounter=encounter
+      this.newEdit=false
+      this.edit=true
+    },
+
+    //Get that thing outta here
+    deleteEncounter(encounter){
+      this.$encounter_api.deleteEncounter(encounter.id).then(()=>{
+        this.updateEncounters()
+      })
+    }
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: VCR;
   text-align: center;
-  color: #2c3e50;
+  color: white;
   margin-top: 60px;
+  background-color: blue;
+}
+button{
+  font-family: VCR;
+  color: white;
+  background-color: blue;
+  border: 3px white solid;
 }
 </style>

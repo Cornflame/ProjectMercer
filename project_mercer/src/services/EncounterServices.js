@@ -12,5 +12,18 @@ export default {
         return axios.post(base_url, encounter).then(response=>{
             return response.data
         })
+    },
+
+    deleteEncounter(id){
+        return axios.delete(`${base_url}/${id}`).then(response=>{
+            return response.data
+        })
+    },
+
+    updateEncounter(encounter){
+        return axios.put(`${base_url}/${encounter.id}`, encounter).then(response=>{
+            return response.data
+        })
     }
+
 }
