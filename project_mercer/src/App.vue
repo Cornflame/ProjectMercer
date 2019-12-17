@@ -11,13 +11,6 @@
 
 <script>
 
-  /*TODO:
-  -Make everything look purty
-  -Comments
-  -github
-  -heroku
-   */
-
   import EncounterList from "./components/EncounterList";
   import EditEncounter from "./components/EditEncounter";
   import ViewEncounter from "./components/ViewEncounter";
